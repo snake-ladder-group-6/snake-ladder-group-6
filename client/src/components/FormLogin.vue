@@ -53,6 +53,9 @@ export default {
         username: this.username,
         password: this.password
       })
+      socket.on('login', (token) => {
+        localStorage.setItem('access_token', token)
+      })
       this.username = ''
       this.password = ''
     }

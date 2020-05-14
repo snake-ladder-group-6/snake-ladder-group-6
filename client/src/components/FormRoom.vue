@@ -34,7 +34,8 @@ export default {
     successCreated () { this.success = true },
     onSubmit () {
       socket.emit('create-room', {
-        roomName: this.roomName
+        roomName: this.roomName,
+        userToken: localStorage.access_token
       })
       this.roomName = ''
     }

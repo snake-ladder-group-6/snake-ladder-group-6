@@ -3,7 +3,7 @@
     <h1>Create New User</h1>
     <b-container class="mb-3">
       <b-form  @submit.stop.prevent>
-        <label for="feedback-user">password</label>
+        <label for="feedback-user">username</label>
         <b-input v-model="username" :state="usernameStatus" id="feedback-user"></b-input>
         <b-form-invalid-feedback class="remainder" :state="usernameStatus">
           Your user ID must be 5 - 12 characters long.
