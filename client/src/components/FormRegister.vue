@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Create New User</h1>
     <b-container class="mb-3">
       <b-form  @submit.stop.prevent>
         <label for="feedback-user">password</label>
@@ -18,13 +19,16 @@
         <b-form-valid-feedback class="remainder" :state="passwordStatus">
           Looks Good.
         </b-form-valid-feedback><br>
-        <b-button type="submit" variant="success">submit</b-button>
+        <b-button type="submit" variant="success" @click="onSubmit">register</b-button>
       </b-form>
     </b-container>
   </div>
 </template>
 
 <script>
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:3000')
+
 export default {
   name: 'FormRegister',
   data () {
@@ -42,6 +46,16 @@ export default {
   watch: {
     username () { this.usernameStatus = this.validationUsername },
     password () { this.passwordStatus = this.validationPassword }
+  },
+  methods: {
+    onSubmit () {
+      socket.emit('register', {
+        username: this.username,
+        password: this.password
+      })
+      this.username = ''
+      this.password = ''
+    }
   }
 }
 </script>
