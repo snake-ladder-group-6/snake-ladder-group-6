@@ -5,14 +5,6 @@
 </template>
 
 <style>
-html {
-  padding: 0;
-  margin: 0;
-}
-body {
-  padding: 0;
-  margin: 0;
-}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,7 +14,7 @@ body {
 }
 
 #nav {
-  /* padding: 30px; */
+  padding: 30px;
 }
 
 #nav a {
