@@ -15,19 +15,13 @@
       <div class="charwarp" v-if="u4.pos==val">
         <img src="../assets/img/purple.png" alt="" class="char" >
       </div>
-      <div class="charwarp" v-if="u5.pos==val">
-        <img src="../assets/img/cyan.png" alt="" class="char" >
-      </div>
-      <div class="charwarp" v-if="u6.pos==val">
-        <img src="../assets/img/green.png" alt="" class="char" >
-      </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'box',
-  props: ['val', 'u1', 'u2', 'u3', 'u4', 'u5', 'u6'],
+  props: ['val', 'u1', 'u2', 'u3', 'u4'],
   created () {
   }
 }

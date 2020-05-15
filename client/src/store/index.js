@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     listPlayer: []
   },
   mutations: {
-    SET_LIST_PLAYER (state, username) { state.listPlayer.push(username) }
+    SET_LIST_PLAYER (state, username) { state.listPlayer = username }
   }
 })
 

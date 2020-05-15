@@ -21,20 +21,6 @@
                         </div>
                     </div>
                     <div id="middle">
-                        <!-- <div>
-                        <label for=""> user 1 : </label>
-                        <input type="text" v-model="u1.pos"> <br>
-                        <label for=""> user 2 : </label>
-                        <input type="text" v-model="u2.pos"> <br>
-                        <label for=""> user 3 : </label>
-                        <input type="text" v-model="u3.pos"> <br>
-                        <label for=""> user 4 : </label>
-                        <input type="text" v-model="u4.pos"> <br>
-                        <label for=""> user 5 : </label>
-                        <input type="text" v-model="u5.pos"> <br>
-                        <label for=""> user 6 : </label>
-                        <input type="text" v-model="u6.pos"> <br>
-                        </div> -->
                         <div class="dicebox">
                             <div id="dice">
                                 <h1 class="display-2">
@@ -55,12 +41,6 @@
                                 ROLE
                             </b-btn>
                             <b-btn class="btn btn-light btn-block" @click.prevent="roleDice" v-if="!u4.win && u4.turn === true">
-                                ROLE
-                            </b-btn>
-                            <b-btn class="btn btn-light btn-block" @click.prevent="roleDice" v-if="!u5.win && u5.turn === true">
-                                ROLE
-                            </b-btn>
-                            <b-btn class="btn btn-light btn-block" @click.prevent="roleDice" v-if="!u6.win && u6.turn === true">
                                 ROLE
                             </b-btn>
                         </div>
@@ -90,8 +70,6 @@
                             :u2="u2"
                             :u3="u3"
                             :u4="u4"
-                            :u5="u5"
-                            :u6="u6"
                             ></box>
                         </div>
                     </div>
@@ -137,18 +115,6 @@ export default {
         win: false,
         turn: false
       },
-      u5: {
-        player: 5,
-        pos: 0,
-        win: false,
-        turn: false
-      },
-      u6: {
-        player: 6,
-        pos: 0,
-        win: false,
-        turn: false
-      },
       diceNum: 0,
       turn: 1,
       placement: []
@@ -168,8 +134,6 @@ export default {
         this.u2.turn = false
         this.u3.turn = false
         this.u4.turn = false
-        this.u5.turn = false
-        this.u6.turn = false
         this.u1.turn = true
         this.turn++
       } else if (this.turn === 1) {
@@ -177,77 +141,63 @@ export default {
         this.u1.turn = true
         this.turn++
       } else if (this.turn === 2) {
-        this.turn++
         user = this.u2
         this.u1.turn = false
         this.u2.turn = true
-      } else if (this.turn === 3) {
         this.turn++
+      } else if (this.turn === 3) {
         user = this.u3
         this.u1.turn = false
         this.u2.turn = false
         this.u3.turn = true
-      } else if (this.turn === 4) {
         this.turn++
+      } else if (this.turn === 4) {
         user = this.u4
         this.u1.turn = false
         this.u2.turn = false
         this.u3.turn = false
         this.u4.turn = true
+        this.turn++
       }
-      // else if ( this.turn === 5) {
-      //     this.turn++
-      //     user = this.u5
-      //     this.u1.turn = false
-      //     this.u2.turn = false
-      //     this.u3.turn = false
-      //     this.u4.turn = false
-      //     this.u5.turn = true
-      // } else if ( this.turn === 6) {
-      //     this.turn++
-      //     user = this.u6
-      //     this.u1.turn = false
-      //     this.u2.turn = false
-      //     this.u3.turn = false
-      //     this.u4.turn = false
-      //     this.u5.turn = false
-      //     this.u6.turn = true
-      // }
 
+      const random = Math.ceil(Math.random() * 6)
+      const delay = random * 600
+      this.diceNum = 0
+      this.diceNum = random
+      let step = 0
+      let forward = true
+      const newPosition = this.diceNum + user.pos
+      socket.emit('sendDiceNum', newPosition, user.player)
+      // movo forward
+      var move = setInterval(() => {
+        if (forward) {
+          user.pos++
+          if (user.pos > 99) {
+            forward = false
+          }
+        } else {
+          user.pos--
+        }
+        step++
+
+        if (step === this.diceNum) {
+          console.log(user.pos)
+          socket.on('newPos', (position, id) => {
+            // console.log(position)
+            // user.pos = position
+          })
+          clearInterval(move)
+        }
+      }, 600)
       setTimeout(() => {
-        const random = Math.ceil(Math.random() * 6)
-        const delay = random * 600
-        this.diceNum = 0
-        this.diceNum = random
-        let step = 0
-        let forward = true
-        // movo forward
-        var move = setInterval(() => {
-          if (forward) {
-            user.pos++
-            if (user.pos > 99) {
-              forward = false
-            }
-          } else {
-            user.pos--
-          }
-          step++
-
-          if (step === this.diceNum) {
-            clearInterval(move)
-          }
-        }, 600)
-        setTimeout(() => {
-        // winner flag
-          if (user.pos > 100) {
-            const sisa = user.pos - 100
-            user.pos = 100 - sisa
-          } else if (user.pos === 100) {
-            user.win = true
-          }
-        }, delay)
-      }, 1)
-      socket.emit('sendDiceNum', this.diceNum)
+      // winner flag
+        if (user.pos > 100) {
+          const sisa = user.pos - 100
+          user.pos = 100 - sisa
+        } else if (user.pos === 100) {
+          user.win = true
+        }
+      }, delay)
     }
   },
   created () {

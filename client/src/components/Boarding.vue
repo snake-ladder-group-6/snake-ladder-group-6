@@ -1,8 +1,8 @@
 <template>
   <div>
     <b-jumbotron header="Waiting Room" lead="Please wait a second ..."><br><br>
-    <div>
-      <p v-for="(player, i) in listPlayer" :key="i">{{ player }}</p>
+    <div v-for="(player, i) in listPlayer" :key="i" >
+      <p>{{ player }}</p>
     </div><br><br>
     <b-button type="submit" variant="success" @click="main">Start</b-button>
     </b-jumbotron>
@@ -10,14 +10,18 @@
 </template>
 
 <script>
-// import io from 'socket.io-client'
-// const socket = io.connect('http://localhost:3000')
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:3000')
 
 export default {
   name: 'boarding',
   methods: {
     main () {
-      this.$router.push({ path: '/main-page' })
+      socket.emit('start-game')
+
+      socket.on('gameStarted', () => {
+        this.$router.push({ path: '/main-page' })
+      })
     }
   },
   computed: {

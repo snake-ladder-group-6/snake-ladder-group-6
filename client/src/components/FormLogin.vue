@@ -54,9 +54,14 @@ export default {
         password: this.password
       })
       socket.on('token', (payload) => {
-        localStorage.setItem('access_token', payload.access_token)
-        this.$store.commit('SET_LIST_PLAYER', payload.username)
-        this.$router.push({ path: '/boarding' })
+        if (payload) {
+          // localStorage.setItem('access_token', payload.access_token)
+          this.$store.commit('SET_LIST_PLAYER', payload)
+          this.$router.push({ path: '/boarding' })
+        } else {
+          console.log('room is full')
+          this.$router.push({ path: '/' })
+        }
       })
       this.username = ''
       this.password = ''
