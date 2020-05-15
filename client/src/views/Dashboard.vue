@@ -9,6 +9,11 @@ export default {
   name: 'DashboardViews',
   components: {
     Dashboard
+  },
+  created () {
+    // if (!localStorage.access_token) {
+    //   this.$router.push({ path: '/' })
+    // }
   }
 }
 </script>

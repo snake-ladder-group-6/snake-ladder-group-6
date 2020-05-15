@@ -53,8 +53,10 @@ export default {
         username: this.username,
         password: this.password
       })
-      socket.on('login', (token) => {
-        localStorage.setItem('access_token', token)
+      socket.on('token', (payload) => {
+        localStorage.setItem('access_token', payload.access_token)
+        this.$store.commit('SET_LIST_PLAYER', payload.username)
+        this.$router.push({ path: '/boarding' })
       })
       this.username = ''
       this.password = ''

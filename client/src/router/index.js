@@ -5,10 +5,16 @@ import Login from '../views/Login'
 import RoomAdd from '../views/RoomAdd'
 import LandingPageViews from '../views/LandingPageViews'
 import DashboardViews from '../views/Dashboard.vue'
+import BoardingViews from '../views/BoardingViews.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    name: 'LandingPage',
+    component: LandingPageViews
+  },
   {
     path: '/register',
     name: 'register',
@@ -25,14 +31,14 @@ const routes = [
     component: RoomAdd
   },
   {
-    path: '/',
-    name: 'LandingPage',
-    component: LandingPageViews
-  },
-  {
     path: '/dashboard',
     name: 'dasboard',
     component: DashboardViews
+  },
+  {
+    path: '/boarding',
+    name: 'boarding',
+    component: BoardingViews
   }
 ]
 

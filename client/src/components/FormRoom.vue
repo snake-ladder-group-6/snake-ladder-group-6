@@ -33,11 +33,13 @@ export default {
   methods: {
     successCreated () { this.success = true },
     onSubmit () {
-      socket.emit('create-room', {
+      socket.emit('add-room', {
         roomName: this.roomName,
-        userToken: localStorage.access_token
+        access_token: localStorage.access_token
       })
+      // io.on('roomCreated', room)
       this.roomName = ''
+      this.$router.push({ path: '/boarding' })
     }
   }
 }
